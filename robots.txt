@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vendmachine.co.kr/sitemap.xml
+Sitemap: https://vendmachine.co.kr/sitemap-areas.xml
