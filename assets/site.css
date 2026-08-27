@@ -137,6 +137,8 @@ section{padding:76px 0;}
 .point-block:last-child{border-bottom:none;}
 .point-block.reverse{direction:rtl;}
 .point-block.reverse > *{direction:ltr;}
+.point-block.single{grid-template-columns:1fr; max-width:640px; margin:0 auto; text-align:center;}
+.point-block.single .point-num{margin-left:auto; margin-right:auto;}
 .point-num{
   width:38px; height:38px; border-radius:50%; background:var(--accent); color:#fff;
   display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; margin-bottom:18px;
