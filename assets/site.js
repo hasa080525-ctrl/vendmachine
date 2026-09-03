@@ -54,7 +54,7 @@ function submitApplyForm(){
     '사업자번호: ' + bizNum + '\n' +
     '남기신 말씀: ' + (message || '(없음)');
 
-  window.open('https://open.kakao.com/o/sOXeVnpi', '_blank', 'noopener');
+  window.open('https://open.kakao.com/o/sZv14RLi', '_blank', 'noopener');
 
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(summary).then(function(){
