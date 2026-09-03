@@ -37,18 +37,21 @@ function submitApplyForm(){
     alert('업체명(또는 성함)과 연락처를 입력해주세요.');
     return;
   }
-  const regionEl = document.getElementById('fRegion');
+  const addressEl = document.getElementById('fAddress');
   const placeEl = document.getElementById('fPlace');
+  const bizNumEl = document.getElementById('fBizNum');
   const messageEl = document.getElementById('fMessage');
-  const region = regionEl ? regionEl.value : '';
+  const address = addressEl ? addressEl.value.trim() : '';
   const place = placeEl ? placeEl.value : '';
+  const bizNum = bizNumEl ? bizNumEl.value.trim() : '';
   const message = messageEl ? messageEl.value.trim() : '';
   const summary =
     '[LK 엘케이 자판기 설치 문의]\n' +
     '업체명/성함: ' + name + '\n' +
     '연락처: ' + phone + '\n' +
-    '설치 희망 지역: ' + region + '\n' +
+    '설치 주소: ' + address + '\n' +
     '설치 장소 유형: ' + place + '\n' +
+    '사업자번호: ' + bizNum + '\n' +
     '남기신 말씀: ' + (message || '(없음)');
 
   window.open('https://open.kakao.com/o/sOXeVnpi', '_blank', 'noopener');
