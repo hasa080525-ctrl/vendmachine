@@ -227,7 +227,7 @@ section{padding:76px 0;}
 
 /* ---------- Footer ---------- */
 footer{background:var(--ink); color:#B9B4A3; padding:48px 0 26px;}
-.foot-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:36px; margin-bottom:36px;}
+.foot-grid{display:grid; grid-template-columns:1.1fr 1fr 1fr 1fr; gap:32px; margin-bottom:36px;}
 .foot-logo{font-size:18px; font-weight:800; color:#fff; margin-bottom:12px;}
 .foot-grid p{font-size:13px; line-height:1.8;}
 .foot-col h4{font-size:13px; color:#fff; margin-bottom:14px; font-weight:700;}
