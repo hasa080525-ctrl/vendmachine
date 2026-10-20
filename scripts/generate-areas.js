@@ -58,6 +58,32 @@ function districtSlug(region, district) {
   return `${region.name}-${baseName(district)}-자판기설치`;
 }
 
+// Structured data helpers. Breadcrumb mirrors the visible .breadcrumb trail
+// on each page; FAQ JSON-LD mirrors faqMini()'s visible Q&A verbatim.
+function breadcrumbJsonLd(items) {
+  return `<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+${items.map((it, i) => `    {"@type": "ListItem", "position": ${i + 1}, "name": ${JSON.stringify(it.name)}, "item": ${JSON.stringify(it.url)}}`).join(',\n')}
+  ]
+}
+</script>`;
+}
+function faqJsonLd() {
+  return `<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "설치 비용은 어떻게 되나요?", "acceptedAnswer": {"@type": "Answer", "text": "설치 장소와 자판기 사양에 따라 달라질 수 있어 상담을 통해 정확히 안내해드립니다. 상담은 무료입니다."}},
+    {"@type": "Question", "name": "전국 어디든 설치가 가능한가요?", "acceptedAnswer": {"@type": "Answer", "text": "네, 전국 지역 설치가 가능합니다. 설치 희망 지역과 장소 유형을 상담 시 말씀해주시면 일정을 안내해드립니다."}}
+  ]
+}
+</script>`;
+}
+
 function head(title, desc, canonical, keywords) {
   return `<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -87,7 +113,7 @@ function header() {
 </header>
 <div class="mobile-cta-bar">
   <a class="mobile-cta-call" href="tel:010-3951-0535">☎ 전화</a>
-  <a class="mobile-cta-kakao" href="https://open.kakao.com/o/sOXeVnpi" target="_blank" rel="noopener">💬 카톡</a>
+  <a class="mobile-cta-kakao" href="https://open.kakao.com/o/sZv14RLi" target="_blank" rel="noopener">💬 카톡</a>
   <a class="mobile-cta-apply" href="/#apply">설치 상담</a>
 </div>`;
 }
@@ -124,11 +150,18 @@ function regionPageTemplate(region) {
   const districtLinks = region.districts.length
     ? region.districts.map(d => `<a href="/areas/${encodeURIComponent(districtSlug(region, d))}.html">${region.name} ${baseName(d)} 자판기 설치</a>`).join('\n          ')
     : '';
+  const breadcrumbLd = breadcrumbJsonLd([
+    { name: '홈', url: `${SITE}/` },
+    { name: '설치 지역', url: `${SITE}/areas/` },
+    { name: region.name, url: canonical },
+  ]);
 
   return `<!DOCTYPE html>
 <html lang="ko">
 <head>
 ${head(title, desc, canonical, keywords)}
+${breadcrumbLd}
+${faqJsonLd()}
 </head>
 <body>
 ${header()}
@@ -165,7 +198,7 @@ ${districtLinks ? `<section class="section-alt">
     <p>상담은 무료이며, 전화·카카오톡으로 편하게 문의하실 수 있습니다.</p>
     <div class="hero-actions" style="justify-content:center; display:flex; gap:12px;">
       <a class="btn-primary" style="background:var(--ink); color:#fff;" href="tel:010-3951-0535">☎ 전화 문의</a>
-      <a class="btn-ghost" style="border-color:var(--ink); color:var(--ink);" href="https://open.kakao.com/o/sOXeVnpi" target="_blank" rel="noopener">💬 카톡 상담</a>
+      <a class="btn-ghost" style="border-color:var(--ink); color:var(--ink);" href="https://open.kakao.com/o/sZv14RLi" target="_blank" rel="noopener">💬 카톡 상담</a>
     </div>
     <p style="margin-top:20px;"><a href="/areas/" style="color:var(--accent-dark); font-weight:700;">전국 설치 지역 전체 보기 →</a></p>
   </div>
@@ -186,11 +219,19 @@ function districtPageTemplate(region, district) {
   const keywords = `${district_}자판기설치, ${district_} 무인자판기, ${region.name}${district_}자판기, 자판기 설치업체, ${district_} 밴딩머신`;
   const hasSub = /\(.*\)$/.test(district);
   const subNote = hasSub ? district.match(/\((.*)\)$/)[1] : '';
+  const breadcrumbLd = breadcrumbJsonLd([
+    { name: '홈', url: `${SITE}/` },
+    { name: '설치 지역', url: `${SITE}/areas/` },
+    { name: region.name, url: `${SITE}${parentUrl}` },
+    { name: district_, url: canonical },
+  ]);
 
   return `<!DOCTYPE html>
 <html lang="ko">
 <head>
 ${head(title, desc, canonical, keywords)}
+${breadcrumbLd}
+${faqJsonLd()}
 </head>
 <body>
 ${header()}
@@ -219,7 +260,7 @@ ${faqMini()}
     <p>상담은 무료이며, 전화·카카오톡으로 편하게 문의하실 수 있습니다.</p>
     <div class="hero-actions" style="justify-content:center; display:flex; gap:12px;">
       <a class="btn-primary" style="background:var(--ink); color:#fff;" href="tel:010-3951-0535">☎ 전화 문의</a>
-      <a class="btn-ghost" style="border-color:var(--ink); color:var(--ink);" href="https://open.kakao.com/o/sOXeVnpi" target="_blank" rel="noopener">💬 카톡 상담</a>
+      <a class="btn-ghost" style="border-color:var(--ink); color:var(--ink);" href="https://open.kakao.com/o/sZv14RLi" target="_blank" rel="noopener">💬 카톡 상담</a>
     </div>
     <p style="margin-top:20px;"><a href="${parentUrl}" style="color:var(--accent-dark); font-weight:700;">${esc(region.name)} 전체 보기 →</a> · <a href="/areas/" style="color:var(--accent-dark); font-weight:700;">전국 설치 지역 전체 보기 →</a></p>
   </div>
@@ -243,10 +284,16 @@ function hubTemplate() {
       </div>`;
   }).join('\n');
 
+  const breadcrumbLd = breadcrumbJsonLd([
+    { name: '홈', url: `${SITE}/` },
+    { name: '설치 지역', url: `${SITE}/areas/` },
+  ]);
+
   return `<!DOCTYPE html>
 <html lang="ko">
 <head>
 ${head('전국 설치 지역 전체 목록 | LK 엘케이', '전국 16개 광역지자체, 시/군/구 단위 LK 광고형 홈타운 밴딩머신 설치 안내 페이지 모음입니다.', `${SITE}/areas/`, '전국 자판기 설치, 지역별 자판기 설치, 무인 자판기 설치업체')}
+${breadcrumbLd}
 </head>
 <body>
 ${header()}
